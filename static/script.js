@@ -1,63 +1,52 @@
-const planSelect = document.getElementById("plan");
-const payBtn = document.getElementById("payBtn");
+async function payNow(){
+  const fullName = document.getElementById('fullName')?.value || document.querySelector('input[name="fullName"]')?.value || document.getElementById('name')?.value || "Customer";
+  const email = document.getElementById('email')?.value;
+  const phone = document.getElementById('phone')?.value || document.getElementById('kitId')?.value || "08000000000";
+  const planSelect = document.getElementById('plan');
+  const amount = planSelect.value;
+  const plan_name = planSelect.options[planSelect.selectedIndex].dataset.name;
 
-planSelect.addEventListener("change", () => {
-  payBtn.innerText = `Pay ₦${Number(planSelect.value).toLocaleString()} with Paystack`;
-});
-payBtn.innerText = `Pay ₦${Number(planSelect.value).toLocaleString()} with Paystack`;
+  if(!email){ alert("Please enter email"); return; }
 
-function payNow() {
-  const name = document.getElementById("name").value.trim();
-  const email = document.getElementById("email").value.trim();
-  const kit = document.getElementById("kit").value.trim();
-  const amount = document.getElementById("plan").value;
-  const planName = planSelect.options[planSelect.selectedIndex].dataset.name;
+  const btn = document.getElementById('payBtn');
+  const originalText = btn.innerHTML;
+  btn.innerHTML = "Processing...";
+  btn.disabled = true;
 
-  if (!name || !email) {
-    alert("Please enter your full name and email");
-    return;
-  }
-
-  payBtn.innerText = "Processing...";
-  payBtn.disabled = true;
-
-  let handler = PaystackPop.setup({
-    key: PAYSTACK_PUBLIC_KEY,
-    email: email,
-    amount: amount * 100,
-    currency: "NGN",
-    ref: "ARZ-" + Math.floor(Math.random() * 1000000000),
-    metadata: {
-      custom_fields: [
-        { display_name: "Full Name", variable_name: "full_name", value: name },
-        { display_name: "Kit ID", variable_name: "kit_id", value: kit },
-        { display_name: "Plan", variable_name: "plan", value: planName }
-      ]
-    },
-    callback: function(response) {
-      fetch("/verify", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          reference: response.reference,
-          customer: { name, email, starlink_id: kit, plan: planName }
-        })
-      })
-      .then(res => res.json())
-      .then(data => {
-        alert(data.message);
-        payBtn.innerText = `Pay ₦${Number(amount).toLocaleString()} with Paystack`;
-        payBtn.disabled = false;
-        if (data.status === "success") {
-          document.getElementById("name").value = "";
-          document.getElementById("email").value = "";
-        }
-      });
-    },
-    onClose: function() {
-      payBtn.innerText = `Pay ₦${Number(amount).toLocaleString()} with Paystack`;
-      payBtn.disabled = false;
+  try{
+    const res = await fetch('/initialize', {
+      method: 'POST',
+      headers: {'Content-Type':'application/json'},
+      body: JSON.stringify({email, amount, plan_name, full_name: fullName, phone})
+    });
+    const data = await res.json();
+    
+    if(!data.status){
+      alert('Error: ' + (data.message || 'Failed to initialize'));
+      btn.innerHTML = originalText;
+      btn.disabled = false;
+      return;
     }
-  });
-  handler.openIframe();
+
+    const handler = PaystackPop.setup({
+      key: PAYSTACK_PUBLIC_KEY,
+      email: email,
+      amount: data.data.amount,
+      ref: data.data.reference,
+      metadata: {full_name: fullName, plan_name, phone},
+      callback: function(response){
+        // AUTO REDIRECT TO PIN PAGE!
+        window.location.href = '/verify/' + response.reference;
+      },
+      onClose: function(){
+        btn.innerHTML = originalText;
+        btn.disabled = false;
+      }
+    });
+    handler.openIframe();
+  }catch(err){
+    alert("Network error: " + err.message);
+    btn.innerHTML = originalText;
+    btn.disabled = false;
+  }
 }
