@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head><meta name="viewport" content="width=device-width, initial-scale=1"><title>Vouchers - Admin</title>
+<style>body{font-family:Arial;background:#0a0e1a;color:white;padding:20px} table{width:100%;border-collapse:collapse;background:#131a2e} th,td{border:1px solid #1e2a4a;padding:8px;font-size:13px} th{background:#1e2a4a}</style>
+</head>
+<body>
+<h2>Arizona Starlink - All Generated PINs (1 Device Each)</h2>
+<table>
+<tr><th>PIN</th><th>Name</th><th>Email</th><th>Plan</th><th>Amount</th><th>Expiry</th><th>Ref</th></tr>
+{% for v in vouchers %}
+<tr><td><b>{{ v.pin }}</b></td><td>{{ v.full_name }}</td><td>{{ v.email }}</td><td>{{ v.plan }}</td><td>₦{{ v.amount }}</td><td>{{ v.expiry }}</td><td>{{ v.reference[:8] }}...</td></tr>
+{% endfor %}
+</table>
+<p><a href="/" style="color:#00d4ff">← Home</a></p>
+</body>
+</html>
