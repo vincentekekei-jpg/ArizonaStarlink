@@ -1,0 +1,25 @@
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Inter',sans-serif}
+body{background:#080a12;color:white;overflow-x:hidden;min-height:100vh}
+.bg-glow{position:fixed;top:-20%;left:-10%;width:600px;height:600px;background:radial-gradient(circle,#00a6ff33,transparent);filter:blur(80px);z-index:-1}
+header{text-align:center;padding:40px 20px}
+.logo{font-size:38px;font-weight:800;letter-spacing:6px}
+.logo span{font-weight:400;color:#00a6ff}
+header p{opacity:0.6;margin-top:8px;font-size:14px}
+.container{max-width:1100px;margin:0 auto;display:flex;gap:40px;padding:20px;flex-wrap:wrap;justify-content:center}
+.left{flex:1;min-width:300px;padding:20px}
+.left h1{font-size:48px;line-height:1.1;margin-bottom:25px}
+.features{list-style:none;margin:20px 0}
+.features li{margin:10px 0;opacity:0.9}
+.plans-preview{display:flex;gap:30px;margin-top:30px}
+.plans-preview strong{font-size:22px}
+.plans-preview span{font-size:12px;opacity:0.6}
+.pay-card{background:rgba(255,255,255,0.08);backdrop-filter:blur(20px);border:1px solid rgba(255,255,255,0.1);flex:1;min-width:350px;max-width:450px;padding:30px;border-radius:24px}
+.pay-card h2{margin-bottom:20px}
+label{font-size:12px;opacity:0.7;margin-top:15px;display:block}
+input,select{width:100%;padding:14px;background:rgba(255,255,255,0.08);border:1px solid rgba(255,255,255,0.15);border-radius:12px;color:white;margin-top:6px;outline:none}
+input:focus,select:focus{border-color:#00a6ff}
+option{color:black}
+#payBtn{width:100%;padding:16px;background:white;color:black;border:none;border-radius:12px;font-weight:700;font-size:16px;margin-top:25px;cursor:pointer;transition:0.3s}
+#payBtn:hover{background:#00a6ff;color:white;transform:translateY(-2px)}
+.secure{text-align:center;font-size:11px;opacity:0.5;margin-top:12px}
+@media(max-width:800px){.left h1{font-size:32px}}

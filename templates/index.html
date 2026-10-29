@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Arizona Starlink | Official Payment Portal</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <script src="https://js.paystack.co/v1/inline.js"></script>
+</head>
+<body>
+  <div class="bg-glow"></div>
+  
+  <header>
+    <div class="logo">ARIZONA<span>STARLINK</span></div>
+    <p>Official Subscription Payment • Aba, Abia • Fast & Secure</p>
+  </header>
+
+  <main class="container">
+    <div class="left">
+      <h1>Stay Connected.<br>Pay in Seconds.</h1>
+      <ul class="features">
+        <li>⚡ Instant Activation</li>
+        <li>🔒 Secured by Paystack</li>
+        <li>📞 24/7 Support on WhatsApp</li>
+      </ul>
+      <div class="plans-preview">
+        <div><strong>30+</strong><br><span>Active Users</span></div>
+        <div><strong>99%</strong><br><span>Uptime</span></div>
+        <div><strong>4.9★</strong><br><span>Rating</span></div>
+      </div>
+    </div>
+
+    <div class="pay-card">
+      <h2>Pay Subscription</h2>
+      <label>Full Name</label>
+      <input type="text" id="name" placeholder="e.g. Chinedu Okoro">
+      
+      <label>Email Address</label>
+      <input type="email" id="email" placeholder="chinedu@gmail.com">
+      
+      <label>Phone / Starlink Kit ID</label>
+      <input type="text" id="kit" placeholder="080... or KIT-...">
+      
+      <label>Select Plan</label>
+      <select id="plan">
+        <option value="24000" data-name="1 Month">1 Month — ₦24,000</option>
+        <option value="48000" data-name="2 Months">2 Months — ₦48,000</option>
+        <option value="70000" data-name="3 Months">3 Months — ₦70,000 (Popular)</option>
+        <option value="135000" data-name="6 Months">6 Months — ₦135,000</option>
+        <option value="250000" data-name="12 Months">1 Year — ₦250,000 (Best Value)</option>
+      </select>
+
+      <button id="payBtn" onclick="payNow()">Pay ₦24,000 with Paystack</button>
+      <p class="secure">🔒 Your payment is encrypted and 100% secure</p>
+    </div>
+  </main>
+
+  <script>
+    const PAYSTACK_PUBLIC_KEY = "{{ paystack_public }}";
+  </script>
+  <script src="{{ url_for('static', filename='script.js') }}"></script>
+</body>
+</html>
